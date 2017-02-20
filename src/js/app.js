@@ -39,7 +39,7 @@ let alphabet = {
 		},
 		getNextQuote = () => {
 			return new Promise( ( resolve, reject ) => {
-				fetch( '//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1' )
+				fetch( '//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&rand=' + Math.random() )
 						.then( response => {
 							if( response.status < 200 || response.status >= 400 ) {
 								throw 'Error: ' + response.status + ' - ' + response.text();
