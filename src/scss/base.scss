@@ -1,50 +1,81 @@
 @import url("https://fonts.googleapis.com/css?family=Lora|Quicksand");
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
 body {
+  height: 100vh;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  color: #212121;
   font-family: "Lora", serif;
 }
 
 #cryptogram {
+  padding: 1rem;
+
+  flex: 1 1;
+
+  overflow: auto;
+
   .word {
-    margin-right: 1.5rem;
+    margin-right: 2.5rem;
+    margin-bottom: 1rem;
 
     display: inline-block;
 
     white-space: nowrap;
 
-    span {
-      margin-bottom: 3rem;
+    .letter {
+      height: 1.75em;
+      margin-bottom: 1em;
 
       display: inline-block;
 
       position: relative;
 
-      font-size: 2rem;
-      line-height: 1.5;
+      font-size: 3rem;
+      line-height: 1.75;
       text-align: center;
       vertical-align: bottom;
 
+      &.uppercase {
+        text-transform: uppercase;
+      }
+
+      &.active {
+        background-color: #FFF9C4;
+      }
+
       &[data-cypher] {
-        width: 2rem;
+        width: 1.25em;
 
         &::before {
-          height: 50%;
-
           position: absolute;
           top: 100%;
           right: 0;
           left: 0;
 
+          color: #BDBDBD;
           font-family: "Quicksand", sans-serif;
-          font-size: 1rem;
-          line-height: 2rem;
+          font-size: 0.5em;
+          line-height: 3rem;
           text-transform: uppercase;
 
-          border-top: 1px #000 solid;
+          border-top: 1px #BDBDBD solid;
 
           content: attr(data-cypher);
-
-          opacity: 0.5;
         }
       }
     }
@@ -54,19 +85,88 @@ body {
 #characters {
   padding: 0;
 
-  //display: flex;
-  display: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 0 1 auto;
 
+  font-family: "Lora", serif;
   list-style: none;
 
-  li {
-    width: 1.5rem;
+  background-color: #004D40;
 
-    display: inline-flex;
+  li {
+    height: 3.5rem;
+    width: 3.5rem;
+    margin: 0.5rem;
+
+    display: block;
+
+    position: relative;
+
+    overflow: visible;
+
+    color: #FFF;
 
     text-align: center;
-    line-height: 1.5rem;
+    font-size: 1.75rem;
+    line-height: 3.5rem;
 
-    border: 1px #999 solid;
+    //background-color: #FFF;
+
+    //border: 1px #999 solid;
+    border-radius: 2px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    -webkit-transition: -webkit-transform 400ms, opacity 400ms;
+    transition: transform 400ms, opacity 400ms;
+
+    span {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+
+      -webkit-transition: all 400ms;
+      transition: all 400ms;
+    }
+
+    &.dragging {
+      opacity: 0.25;
+
+      -webkit-transition: opacity 120ms;
+      transition: opacity 120ms;
+
+      span {
+        width: 1.25em;
+        height: 1.75em;
+
+        font-size: 3rem;
+        line-height: 1.75;
+
+        background-color: #00796B;
+
+        -webkit-transition: all 120ms;
+        transition: all 120ms;
+      }
+    }
+
+    &.used {
+      opacity: 0.25;
+    }
   }
 }

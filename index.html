@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cryptograms</title>
-  <link href="./favicon.ico" rel="icon" type="image/x-icon">
-  <link href="./resources/base.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Cryptograms</title>
+	<link href="./favicon.ico" rel="icon" type="image/x-icon">
+	<link href="./resources/base.css" rel="stylesheet">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="theme-color" content="#009688">
+	<meta name="msapplication-navbutton-color" content="#009688">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
-<div id="cryptogram"></div>
-<ul id="characters">
-	<li>A</li>
-	<li>B</li>
-	<li>C</li>
-	<li>D</li>
-	<li>E</li>
-	<li>F</li>
-	<li>G</li>
-	<li>H</li>
-	<li>I</li>
-	<li>J</li>
-	<li>K</li>
-	<li>L</li>
-	<li>M</li>
-	<li>N</li>
-	<li>O</li>
-	<li>P</li>
-	<li>Q</li>
-	<li>R</li>
-	<li>S</li>
-	<li>T</li>
-	<li>U</li>
-	<li>V</li>
-	<li>W</li>
-	<li>X</li>
-	<li>Y</li>
-	<li>Z</li>
-</ul>
+<div id="cryptogram">LOADING...</div>
+<ul id="characters"></ul>
 <script id="cryptogram-template" type="text/x-handlebars-template">
 	{{#each words}}
 	<span class="word">
 		{{#each this}}
-		<span{{#if cypher}} data-cypher="{{cypher}}"{{/if}}>{{original}}</span>
-		{{/each}}
+		{{#if letter}}
+	<span class="letter{{#if uppercase}} uppercase{{/if}}"{{#if cypher}} data-cypher="{{cypher}}"{{/if}}>{{lookup ../../answers cypher}}</span>
+		{{else}}
+		<span class="letter">{{original}}</span>
+	{{/if}}
+	{{/each}}
 	</span>
 	{{/each}}
 </script>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script id="character-template" type="text/x-handlebars-template">
+	{{#each this}}
+	<li data-letter="{{letter}}" draggable="{{#if used}}false{{else}}true{{/if}}"{{#if used}} class="used"{{/if}}><span>{{letter}}</span></li>
+	{{/each}}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js" integrity="sha256-1O3BtOwnPyyRzOszK6P+gqaRoXHV6JXj8HkjZmPYhCI=" crossorigin="anonymous"></script>
 <script src="./resources/app.js"></script>
 </body>
