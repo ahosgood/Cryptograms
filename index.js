@@ -1,31 +1,37 @@
+"use strict";
+
 const http = require( 'http' ),
-	url = require( 'url' ),
-	fs = require( 'fs' ),
-	path = require( 'path' );
+		url = require( 'url' ),
+		fs = require( 'fs' ),
+		path = require( 'path' );
 
 let port = 8000;
 
 http
-	.createServer( ( request, response ) => {
-		try {
-			let requestUrl = url.parse( request.url ),
-				fsPath = './' + path.normalize( requestUrl.pathname );
+		.createServer( ( request, response ) => {
+			try {
+				let requestUrl = url.parse( request.url ),
+						fsPath = './' + path.normalize( requestUrl.pathname );
 
-			response.writeHead( 200 );
+				if( requestUrl.pathname.replace( /^[\/\\]/, '' ) === '' ) {
+					fsPath = './index.html';
+				}
 
-			fs.createReadStream( fsPath )
-				.pipe( response )
-				.on( 'error', e => {
-					response.writeHead( 404 );
-					response.end();
+				response.writeHead( 200 );
 
-					console.log( e );
-				} );
-		} catch( e ) {
-			response.writeHead( 500 );
-			response.end();
+				fs.createReadStream( fsPath )
+						.pipe( response )
+						.on( 'error', e => {
+							response.writeHead( 404 );
+							response.end();
 
-			console.log( e.stack );
-		}
-	} )
-	.listen( port );
+							console.log( e.stack );
+						} );
+			} catch( e ) {
+				response.writeHead( 500 );
+				response.end();
+
+				console.log( e.stack );
+			}
+		} )
+		.listen( port );
