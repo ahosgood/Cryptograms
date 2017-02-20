@@ -45,7 +45,7 @@ var alphabet = {
 },
     getNextQuote = function getNextQuote() {
 	return new Promise(function (resolve, reject) {
-		fetch('//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1').then(function (response) {
+		fetch('//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&rand=' + Math.random()).then(function (response) {
 			if (response.status < 200 || response.status >= 400) {
 				throw 'Error: ' + response.status + ' - ' + response.text();
 			}
