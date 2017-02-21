@@ -86,6 +86,8 @@ class Cryptogram {
 					currentCryptogram = new Cryptogram( phrase, generateCypher() );
 				} )
 				.catch( e => console.error( e ) );
+
+			return this;
 		} else {
 			$( '#cryptogram' ).html( this.template( { words: this.phraseParts, answers: this.answers } ) );
 
@@ -94,8 +96,8 @@ class Cryptogram {
 			for( let letter of alphabet.slice( 0 ) ) {
 				characters[letter] = {
 					letter: letter,
-					//used: Object.values( this.answers ).indexOf( letter ) !== -1
-					used: false
+					used: Object.values( this.answers ).indexOf( letter ) !== -1
+					//used: false
 				};
 			}
 
@@ -153,6 +155,34 @@ let currentCryptogram = null,
 				.then( response => resolve( response[0] ) )
 				.catch( e => reject( e ) );
 		} );
+
+		//http://forismatic.com/en/api/
+		//http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en
+		/*return new Promise( ( resolve, reject ) => {
+			//fetch( 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en&rand=' + Math.random(), {
+			fetch( 'http://api.forismatic.com/api/1.0/', {
+
+				method: 'POST',
+				//credentials: 'include',
+				mode: 'cors',
+				headers: new Headers( {
+					'Content-Type': 'application/x-www-form-urlencoded;'
+				} ),
+				body: 'method=getQuote&format=json&lang=en&rand=' + Math.random()
+
+
+
+			} )
+				.then( response => {
+					console.log( response );
+					window.dev = response;
+
+					return response;
+				} )
+				.then( response => response.json() )
+				.then( response => resolve( response.quoteText ) )
+				.catch( e => reject( e ) );
+		} );*/
 	},
 	generateCypher = () => {
 		let keys = alphabet.slice( 0 ),
@@ -183,7 +213,7 @@ let startPos = { x: 0, y: 0 },
 	dragItem = null;
 
 $( '#characters' )
-	.on( 'touchstart mousedown', 'li:not(.used)', e => {
+	.on( 'touchstart mousedown', 'li', e => {
 		let touch = ( e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ) || e;
 		startPos = { x: touch.pageX, y: touch.pageY };
 		let possibleDragItem = $( e.currentTarget );
@@ -238,8 +268,10 @@ cryptogramElement
 		//dragItem.attr( 'draggable', 'false' );
 
 		currentCryptogram
-			.addAnswer( dropItem.attr( 'data-cypher' ), dragItem.attr( 'data-letter' ) )
-			.update();
+			.addAnswer( dropItem.attr( 'data-cypher' ), dragItem.attr( 'data-letter' ) );
+	} )
+	.on( 'touchmove', '.letter', e => {
+		console.log( 'oover ' );
 	} );
 
 if( cryptogramExists() ) {

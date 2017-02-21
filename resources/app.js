@@ -183,6 +183,8 @@ var Cryptogram = function () {
 				}).catch(function (e) {
 					return console.error(e);
 				});
+
+				return this;
 			} else {
 				$('#cryptogram').html(this.template({ words: this.phraseParts, answers: this.answers }));
 
@@ -198,8 +200,8 @@ var Cryptogram = function () {
 
 						characters[letter] = {
 							letter: letter,
-							//used: Object.values( this.answers ).indexOf( letter ) !== -1
-							used: false
+							used: Object.values(this.answers).indexOf(letter) !== -1
+							//used: false
 						};
 					}
 				} catch (err) {
@@ -274,6 +276,30 @@ var currentCryptogram = null,
 			return reject(e);
 		});
 	});
+
+	//http://forismatic.com/en/api/
+	//http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en
+	/*return new Promise( ( resolve, reject ) => {
+ 	//fetch( 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en&rand=' + Math.random(), {
+ 	fetch( 'http://api.forismatic.com/api/1.0/', {
+ 			method: 'POST',
+ 		//credentials: 'include',
+ 		mode: 'cors',
+ 		headers: new Headers( {
+ 			'Content-Type': 'application/x-www-form-urlencoded;'
+ 		} ),
+ 		body: 'method=getQuote&format=json&lang=en&rand=' + Math.random()
+ 
+ 	} )
+ 		.then( response => {
+ 			console.log( response );
+ 			window.dev = response;
+ 				return response;
+ 		} )
+ 		.then( response => response.json() )
+ 		.then( response => resolve( response.quoteText ) )
+ 		.catch( e => reject( e ) );
+ } );*/
 },
     generateCypher = function generateCypher() {
 	var keys = alphabet.slice(0),
@@ -303,7 +329,7 @@ var currentCryptogram = null,
 var startPos = { x: 0, y: 0 },
     dragItem = null;
 
-$('#characters').on('touchstart mousedown', 'li:not(.used)', function (e) {
+$('#characters').on('touchstart mousedown', 'li', function (e) {
 	var touch = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] || e;
 	startPos = { x: touch.pageX, y: touch.pageY };
 	var possibleDragItem = $(e.currentTarget);
@@ -349,7 +375,9 @@ cryptogramElement.on('dragover', '.letter', function (e) {
 
 	//dragItem.attr( 'draggable', 'false' );
 
-	currentCryptogram.addAnswer(dropItem.attr('data-cypher'), dragItem.attr('data-letter')).update();
+	currentCryptogram.addAnswer(dropItem.attr('data-cypher'), dragItem.attr('data-letter'));
+}).on('touchmove', '.letter', function (e) {
+	console.log('oover ');
 });
 
 if (cryptogramExists()) {

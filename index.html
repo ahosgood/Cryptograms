@@ -30,11 +30,13 @@
 </script>
 <script id="character-template" type="text/x-handlebars-template">
 	{{#each this}}
-	<li data-letter="{{letter}}" draggable="{{#if used}}false{{else}}true{{/if}}"{{#if used}} class="used"{{/if}}><span>{{letter}}</span></li>
+	<!--<li data-letter="{{letter}}" draggable="{{#if used}}false{{else}}true{{/if}}" class="{{#if used}}used{{/if}}"><span>{{letter}}</span></li>-->
+	<li data-letter="{{letter}}" draggable="true" class="{{#if used}}used{{/if}}"><span>{{letter}}</span></li>
 	{{/each}}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js" integrity="sha256-1O3BtOwnPyyRzOszK6P+gqaRoXHV6JXj8HkjZmPYhCI=" crossorigin="anonymous"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha256-0rguYS0qgS6L4qVzANq4kjxPLtvnp5nn2nB5G1lWRv4=" crossorigin="anonymous"></script>-->
 <script src="./resources/app.js"></script>
 </body>
 </html>
